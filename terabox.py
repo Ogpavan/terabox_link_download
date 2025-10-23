@@ -3,7 +3,7 @@ import os
 from TeraboxDL import TeraboxDL
 
 LINKS_JSON = "links.json"
-COOKIE = "lang=en; ndus=Y235yeyteHuigO3_I6Maq4TWdFhDnP-fA8boAT-x; ndut_fmt=6165933440C52348F20F8D7E664BB765179D9AE16422BD454BE5EC13FB1ABA1F"
+COOKIE = "lang=en; ndus=Y235yeyteHuigO3_I6Maq4hDnP-fA8boAT-x; ndut_fmt=6165933440C52348F20F8D7E664BB765116422BD454BE5EC13FB1ABA1F"
 SAVE_DIR = "videos"
 MAX_SIZE_MB = 50
 
@@ -53,4 +53,5 @@ def main():
             print(f"⚠️ Unexpected error: {e}")
 
 if __name__ == "__main__":
+
     main()
