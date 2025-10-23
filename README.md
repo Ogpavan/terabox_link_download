@@ -1,66 +1,65 @@
-# terabox_link_download
+# 📦 Terabox Auto Downloader (with Size Limit Filter)
 
+This Python script automates downloading files from **TeraBox** links stored in a JSON file, using the [`TeraboxDL`](https://github.com/Damantha126/TeraboxDL) library.  
+It includes a **file size filter**, skipping any file larger than your defined limit (default: 50 MB).
 
-This Python script automates downloading files from TeraBox links stored in a JSON file, using the TeraboxDL
- library.
-It also includes an optional file size limit filter, so you can skip large files automatically (e.g., >50 MB).
+---
 
-🚀 Features
+## 🚀 Features
 
-✅ Automatically downloads files from multiple TeraBox links.
-✅ Skips files larger than a defined size (default: 50 MB).
-✅ Displays progress, file size, and status logs.
-✅ Handles errors and invalid links gracefully.
-✅ Creates a target videos/ folder automatically.
+- ✅ Automatically downloads multiple TeraBox links.
+- ✅ Skips files larger than a set limit.
+- ✅ Displays detailed logs and progress.
+- ✅ Creates the output folder automatically.
+- ✅ Gracefully handles broken or invalid links.
 
-📁 Project Structure
+---
+
+## 📁 Project Structure
+
+```bash
 TeraboxDownloader/
 ├── terabox_downloader.py     # main script
-├── links.json                # list of TeraBox links to download
-├── videos/                   # output folder (auto-created)
-└── requirements.txt          # dependencies (optional)
-
+├── links.json                # contains all terabox links
+├── videos/                   # output directory (auto-created)
+└── requirements.txt           # dependencies (optional)
 ⚙️ Installation & Setup
 1️⃣ Clone or Download the Repository
+bash
+Copy code
 git clone https://github.com/<your-username>/TeraboxDownloader.git
 cd TeraboxDownloader
+2️⃣ Install Required Packages
+Make sure Python 3.8+ and pip are installed, then run:
 
-2️⃣ Install Dependencies
-
-Make sure you have Python 3.8+ and pip installed.
-
+bash
+Copy code
 pip install TeraboxDL
+If permission issues occur:
 
-
-(If you get permission issues, use pip install --user TeraboxDL.)
-
+bash
+Copy code
+pip install --user TeraboxDL
 3️⃣ Create links.json
+Create a file named links.json in the same directory:
 
-Create a links.json file in the same directory with your TeraBox share links:
-
+json
+Copy code
 [
     "https://1024terabox.com/s/1xrcmgwzTwjnK2kJFApUhcg",
     "https://terabox.com/s/1abcdefghijk12345"
 ]
+Each entry must be a valid TeraBox public share link.
 
+🔑 Setting Your Cookie
+The script needs your TeraBox cookie to authenticate downloads.
 
-Each link should be a valid TeraBox public share link.
+Steps to Get Cookie:
+Open https://terabox.com and log in.
 
-🔑 Get Your Cookie
+Press F12 → open Application → Cookies → https://terabox.com.
 
-The script requires a valid TeraBox login cookie to access and download private or large files.
-
-How to Get Cookie:
-
-Open your browser (preferably Chrome).
-
-Log in to https://terabox.com
-.
-
-Press F12 → Application → Cookies → https://terabox.com
-.
-
-Copy the value of these fields:
+Copy the values of:
 
 ndus
 
@@ -68,64 +67,37 @@ ndut_fmt
 
 Combine them like this:
 
+text
+Copy code
 lang=en; ndus=YOUR_NDUS; ndut_fmt=YOUR_NDUT_FMT
-
-
-Paste that into the script’s COOKIE variable.
-
 Example:
 
+python
+Copy code
 COOKIE = "lang=en; ndus=Y235yeyteHuigO3_I6Maq4TWdFhDnP-fA8boAT-x; ndut_fmt=6165933440C52348F20F8D7E664BB765179D9AE16422BD454BE5EC13FB1ABA1F"
-
-🧠 How It Works
-
-The script loads all links from links.json.
-
-For each link:
-
-It retrieves the file info (name, size, etc.) using TeraboxDL.
-
-It checks if the file size exceeds the defined limit (MAX_SIZE_MB).
-
-If within the limit, it downloads and saves it inside the videos/ folder.
-
-Any invalid or oversized files are skipped automatically.
-
-⚙️ Configuration
-
-You can adjust the following settings inside the script:
+⚙️ Configuration Options
+Modify these variables at the top of the script:
 
 Variable	Description	Default
-LINKS_JSON	Path to JSON file containing links	"links.json"
-COOKIE	Your TeraBox cookie string	(must be filled manually)
-SAVE_DIR	Directory where files will be saved	"videos"
-MAX_SIZE_MB	Maximum allowed file size (in MB)	50
+LINKS_JSON	JSON file containing links	"links.json"
+COOKIE	Your TeraBox cookie	(required)
+SAVE_DIR	Directory to save files	"videos"
+MAX_SIZE_MB	Maximum allowed file size in MB	50
 
-Example:
-To allow larger files:
+Example to allow larger files:
 
-MAX_SIZE_MB = 500  # Allow files up to 500 MB
+python
+Copy code
+MAX_SIZE_MB = 500  # Allow up to 500 MB per file
+▶️ Running the Script
+Once configured, simply run:
 
-▶️ Usage
-
-Once everything is configured:
-
+bash
+Copy code
 python terabox_downloader.py
-
-
-The script will:
-
-Create the output folder (if not existing)
-
-Check each link one by one
-
-Print file info
-
-Download eligible files
-
-Skip or log any errors
-
-🧾 Example Output
+🧾 Example Terminal Output
+bash
+Copy code
 [1/3] Checking: https://1024terabox.com/s/1xrcmgwzTwjnK2kJFApUhcg
 📁 File: example_video.mp4 | Size: 45.22 MB
 ✅ Downloaded: videos/example_video.mp4
@@ -136,49 +108,13 @@ Skip or log any errors
 
 [3/3] Checking: https://invalidlink
 ❌ Error retrieving file info: invalid link or expired
+🧠 How It Works
+Reads all links from links.json.
 
-🧩 Troubleshooting
-Problem	Possible Fix
-❌ Error retrieving file info	The link is invalid, private, or expired.
-⚠️ Unexpected error: ...	Usually caused by a bad cookie or unstable network. Try refreshing the cookie.
-File size shows 0 MB	The link might not point directly to a file (could be a folder).
-Nothing downloads	Make sure the cookie is valid and not expired.
-🌐 Deployment on Vercel or Web UI Integration
+Retrieves each file’s metadata via TeraboxDL.
 
-If you want to run this on a server and trigger downloads from a web page:
+Compares its size with the MAX_SIZE_MB threshold.
 
-Use Flask or FastAPI to expose an API endpoint that runs this script.
+Downloads the file only if it passes the check.
 
-You cannot directly deploy this Python script to Vercel because Vercel doesn’t support long-running Python processes or file writes.
-
-Use Render, Replit, or Railway instead.
-
-Example idea:
-
-Create /api/download endpoint (Flask)
-
-Accept JSON payload with links
-
-Run the script logic in background
-
-🧰 Example Enhancement Ideas
-
-Add progress bar (e.g., with tqdm)
-
-Add async/multithreaded downloads
-
-Export logs to download_log.txt
-
-Add Telegram bot to send results
-
-Create simple HTML interface to upload links.json
-
-🧑‍💻 Author
-
-Developed by: Pawan Pal
-Role: Full Stack Developer
-GitHub: Ogpavan
-
-🪪 License
-
-This project uses the MIT License — free to use, modify, and distribute with attribution.
+Saves the file in the videos/ folder.
